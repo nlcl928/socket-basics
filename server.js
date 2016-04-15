@@ -1,3 +1,4 @@
+// import all the packges
 var PORT = process.env.PORT || 3000;
 var moment = require('moment');
 var express = require('express');
@@ -24,7 +25,7 @@ function sendCurrentUsers (socket) {
 			users.push(userInfo.name);
 		}
 	});
-
+	// provide the current users info
 	socket.emit('message', {
 		name: 'System',
 		text: 'Current users: ' + users.join(', '),
@@ -32,6 +33,7 @@ function sendCurrentUsers (socket) {
 	});
 }
 
+// one user connect to the sever
 io.on('connection', function (socket) {
 	console.log('User connected via socket.io!');
 
@@ -47,7 +49,7 @@ io.on('connection', function (socket) {
 			delete clientInfo[socket.id];
 		}
 	});
-
+	// an user joined the chat room
 	socket.on('joinRoom', function (req) {
 		clientInfo[socket.id] = req;
 		socket.join(req.room);
@@ -57,7 +59,8 @@ io.on('connection', function (socket) {
 			timestamp: moment().valueOf()
 		});
 	});
-
+	
+	// user send messages to server and sever response to the chat room, display to all the users in that room
 	socket.on('message', function (message) {
 		console.log('Message received: ' + message.text);
 
