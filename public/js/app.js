@@ -6,6 +6,7 @@ console.log(name + ' wants to join ' + room);
 
 jQuery('.room-title').text(room);
 
+//user connect to the server
 socket.on('connect', function () {
 	console.log('Connected to socket.io server!');
 	socket.emit('joinRoom', {
@@ -14,6 +15,7 @@ socket.on('connect', function () {
 	});
 });
 
+// send message to the server
 socket.on('message', function (message) {
 	var momentTimestamp = moment.utc(message.timestamp);
 	var $messages = jQuery('.messages');
